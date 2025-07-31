@@ -23,7 +23,7 @@ function App() {
       installButton.textContent = "Install Daemon";
       installButton.className = "mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors";
       installButton.onclick = () => {
-        window.open("http://localhost:1001/download");
+        window.open("https://github.com/Lessyzz/Microservice-App/releases/download/Daemon/USBDaemon.exe");
       };
       const errorInside = document.getElementById("errorOverlay-inside");
       if (errorInside) {
