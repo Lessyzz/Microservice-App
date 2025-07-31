@@ -1,0 +1,80 @@
+services:
+  kafka:
+    image: bitnami/kafka:latest
+    container_name: kafka
+    ports:
+      - "9092:9092"
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:9093
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_KRAFT_CLUSTER_ID=abcdefghijklmno1234567
+    volumes:
+      - kafka_data:/bitnami/kafka
+
+  w_backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "1001:1001"
+    depends_on:
+      - kafka
+    volumes:
+      - ./uploads:/work/uploads
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+
+  w_frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "1002:1002"
+    depends_on:
+      - w_backend
+
+  m_hashing:
+    build:
+      context: ./microservices/m_hashing
+    working_dir: /work
+    volumes:
+      - ./uploads:/work/uploads
+    depends_on:
+      - kafka
+      # - zookeeper
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    restart: on-failure
+
+  m_word_count:
+    build:
+      context: ./microservices/m_word_count
+    working_dir: /work
+    volumes:
+      - ./uploads:/work/uploads
+    depends_on:
+      - kafka
+      # - zookeeper
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    restart: on-failure
+
+  m_letter_count:
+    build:
+      context: ./microservices/m_letter_count
+    working_dir: /work
+    volumes:
+      - ./uploads:/work/uploads
+    depends_on:
+      - kafka
+      # - zookeeper
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+    restart: on-failure
+
+volumes:
+  kafka_data:

@@ -1,0 +1,4 @@
+*
+!target/code-with-quarkus-1.0.0-SNAPSHOT.jar
+!target/lib/*
+!target/quarkus-app/*

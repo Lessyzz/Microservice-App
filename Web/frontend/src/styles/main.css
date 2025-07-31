@@ -1,0 +1,78 @@
+#errorOverlay {
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.85);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    text-align: center;
+    display: none;
+}
+
+#errorOverlay-inside {
+    background: #222;
+    padding: 40px 60px;
+    border-radius: 16px;
+    box-shadow: 0 0 30px #000;
+    max-width: 90vw;
+}
+
+#errorIcon {
+    font-size: 3rem;
+}
+
+#errorMessage {
+    margin-top: 20px;
+}
+
+#errorOverlay-inside button {
+    margin-top: 30px;
+    font-size: 1.2rem;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 8px;
+    background: #e53935;
+    color: #fff;
+    cursor: pointer;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+#path {
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+li {
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+li:hover {
+    background-color: #e0e0e0;
+}
+
+button {
+    margin-right: 10px;
+}
+
+pre {
+    background: #fff;
+    padding: 10px;
+    border: 1px solid #ccc;
+    max-height: 300px;
+    overflow: auto;
+}
