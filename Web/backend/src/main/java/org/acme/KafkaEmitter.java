@@ -21,7 +21,6 @@ public class KafkaEmitter {
     private Producer<String, String> producer;
     private Consumer<String, String> consumer;
 
-    // Inject topic names from application.conf
     @ConfigProperty(name = "topics.file-response-letter-count")
     String letterCountTopic;
 
@@ -30,6 +29,9 @@ public class KafkaEmitter {
 
     @ConfigProperty(name = "topics.file-response-hash")
     String hashTopic;
+
+    @ConfigProperty(name = "kafka.bootstrap.servers", defaultValue = "kafka:9092")
+    String bootstrapServers;
 
     private final Map<String, CompletableFuture<String>> pending = new ConcurrentHashMap<>();
     private final Map<String, Map<String, String>> receivedResults = new ConcurrentHashMap<>();
@@ -50,7 +52,7 @@ public class KafkaEmitter {
 
     private void initProducer() {
         Properties producerProps = new Properties();
-        producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
+        producerProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         producerProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         producerProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         producer = new KafkaProducer<>(producerProps);
@@ -58,14 +60,13 @@ public class KafkaEmitter {
 
     private void initConsumer() {
         Properties consumerProps = new Properties();
-        consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
+        consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "backend-consumer-group");
         consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         consumer = new KafkaConsumer<>(consumerProps);
-
         consumer.subscribe(Arrays.asList(letterCountTopic, wordCountTopic, hashTopic));
     }
 

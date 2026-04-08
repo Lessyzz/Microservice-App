@@ -97,7 +97,6 @@ function App() {
   useEffect(() => {
     if (activePage !== 'explorer') return;
 
-    // DOM manipülasyonlarını temizle
     const cleanup = () => {
       const fileList = document.getElementById("fileList");
       const fileContent = document.getElementById("fileContent");
@@ -240,7 +239,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
-      {/* Analyzing Overlay */}
+
       {isAnalyzing && (
         <div className="fixed inset-0 bg-black-950 bg-opacity-100 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-white rounded-2xl p-8 shadow-2xl flex flex-col items-center max-w-sm mx-4">
@@ -252,13 +251,11 @@ function App() {
       )}
 
       <div className="container mx-auto px-6 py-8">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">File Management Suite</h1>
           <p className="text-gray-600">Explore files and analyze documents with advanced hashing</p>
         </div>
 
-        {/* Navigation Tabs */}
         <div className="flex space-x-1 mb-8 bg-gray-200 p-1 rounded-xl w-fit">
           <button
             onClick={() => setActivePage('explorer')}
@@ -282,7 +279,6 @@ function App() {
           </button>
         </div>
 
-        {/* Explorer Page */}
         {activePage === 'explorer' && (
           <div className="bg-white rounded-2xl shadow-lg p-6">
             <div className="flex items-center justify-between mb-6">
@@ -309,7 +305,6 @@ function App() {
           </div>
         )}
 
-        {/* Hasher Page */}
         {activePage === 'hasher' && (
           <div className="space-y-6">
             <div className="bg-white rounded-2xl shadow-lg p-6">
@@ -318,7 +313,6 @@ function App() {
                 File Analyzer
               </h2>
 
-              {/* File Upload Section */}
               <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 transition-colors">
                 <div className="space-y-4">
                   <div className="text-4xl">📤</div>
@@ -356,7 +350,6 @@ function App() {
                 </div>
               )}
 
-              {/* Upload Status Messages */}
               {uploadStatus === 'uploading' && (
                 <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-400 rounded-lg">
                   <div className="flex items-center">
@@ -373,7 +366,6 @@ function App() {
               )}
             </div>
 
-            {/* Results Section */}
             {uploadStatus === 'success' && fileResult && (
               <div className="bg-white rounded-2xl shadow-lg p-6">
                 <div className="flex items-center mb-6">
@@ -381,7 +373,6 @@ function App() {
                   <h3 className="text-xl font-semibold text-green-600">File Processed Successfully</h3>
                 </div>
 
-                {/* File Info */}
                 <div className="bg-gray-50 rounded-xl p-6 mb-6">
                   <h4 className="font-semibold text-gray-800 mb-4 flex items-center">
                     <span className="text-lg mr-2">📄</span>
@@ -399,16 +390,9 @@ function App() {
                         <span className="font-mono text-gray-800 bg-white px-3 py-1 rounded">{formatFileSize(fileResult.size)}</span>
                       </div>
                     )}
-                    {/* <div className="flex justify-between items-start">
-                      <span className="text-gray-600">UUID:</span>
-                      <code className="bg-white p-2 rounded text-xs font-mono text-gray-800 max-w-xs break-all">
-                        {fileResult.uuid}
-                      </code>
-                    </div> */}
                   </div>
                 </div>
 
-                {/* Analysis Results */}
                 {analysisResult && (
                   <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6">
                     <h4 className="font-semibold text-gray-800 mb-6 flex items-center">
@@ -417,7 +401,6 @@ function App() {
                     </h4>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {/* SHA256 Hash */}
                       <div className="bg-white rounded-lg p-4 shadow-sm">
                         <div className="flex items-center mb-3">
                           <span className="text-xl mr-2">🔐</span>
@@ -428,7 +411,6 @@ function App() {
                         </code>
                       </div>
 
-                      {/* Letter Count */}
                       {typeof analysisResult.letterCount === 'number' && (
                         <div className="bg-white rounded-lg p-4 shadow-sm">
                           <div className="flex items-center mb-3">
@@ -441,7 +423,6 @@ function App() {
                         </div>
                       )}
 
-                      {/* Word Count */}
                       {typeof analysisResult.wordCount === 'number' && (
                         <div className="bg-white rounded-lg p-4 shadow-sm">
                           <div className="flex items-center mb-3">
@@ -462,7 +443,6 @@ function App() {
         )}
       </div>
 
-      {/* Error Overlay */}
       <div id="errorOverlay" className="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
         <div id="errorOverlay-inside" className="bg-white rounded-2xl p-8 shadow-2xl max-w-md mx-4 text-center">
           <span id="errorIcon" className="text-4xl block mb-4">❌</span>

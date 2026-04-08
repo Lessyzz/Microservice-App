@@ -41,14 +41,12 @@ public class App {
                 return Uni.createFrom().item(Response.status(Response.Status.BAD_REQUEST).entity("No file").build());
             }
 
-            //#region Put file to disk
             java.nio.file.Path uploadedFilePath = fileUpload.uploadedFile();
             InputStream fileBody = java.nio.file.Files.newInputStream(uploadedFilePath);
 
             java.nio.file.Path target = java.nio.file.Paths.get("uploads", fileUpload.fileName());
             java.nio.file.Files.createDirectories(target.getParent());
             java.nio.file.Files.copy(fileBody, target, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-            //#endregion
 
             String uuid = java.util.UUID.randomUUID().toString();
 
@@ -70,18 +68,4 @@ public class App {
         Map<String, Object> response = responseManager.checkResults(uuid);
         return Response.ok(response).build();
     }
-
-    // @GET
-    // @Path("/download")
-    // @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    // public Response download() {
-    //     java.nio.file.Path filePath = java.nio.file.Paths.get("app", "daemon.exe");
-    //     if (!java.nio.file.Files.exists(filePath)) {
-    //         return Response.status(Response.Status.NOT_FOUND).entity("File not found").build();
-    //     }
-
-    //     return Response.ok(filePath.toFile())
-    //             .header("Content-Disposition", "attachment; filename=\"" + filePath.getFileName() + "\"")
-    //             .build();
-    // }
 }

@@ -8,13 +8,10 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-
-# ---- Production stage ----
 FROM node:24
 
 WORKDIR /app
 
-# Global olarak serve kur
 RUN npm install -g serve
 
 COPY --from=builder /work/dist ./dist
